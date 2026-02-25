@@ -4,51 +4,63 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
-			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
-			},
 			colors: {
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
-				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
-				},
-				popover: {
-					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
-				},
-				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
-				},
-				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
-				},
-				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+				dark: {
+					bg: '#0D1117',
+					surface: '#161B22',
+					border: '#30363D',
+					text: '#C9D1D9',
+					muted: '#AAB3BC',
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: '#238636', // Emerald Green
+					hover: '#2EA043',
+					light: 'rgba(35, 134, 54, 0.15)',
 				},
-				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+				warning: {
+					DEFAULT: '#D29922',
+					light: 'rgba(210, 153, 34, 0.15)',
 				},
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
-				chart: {
-					'1': 'hsl(var(--chart-1))',
-					'2': 'hsl(var(--chart-2))',
-					'3': 'hsl(var(--chart-3))',
-					'4': 'hsl(var(--chart-4))',
-					'5': 'hsl(var(--chart-5))'
+				danger: {
+					DEFAULT: '#F85149',
+					light: 'rgba(248, 81, 73, 0.15)',
+				},
+				glass: {
+					surface: 'rgba(22, 27, 34, 0.7)',
+					border: 'rgba(48, 54, 61, 0.6)',
+				},
+				background: '#0D1117',
+				foreground: '#C9D1D9',
+				primary: {
+					DEFAULT: '#238636',
+					foreground: '#ffffff',
+				},
+				border: '#30363D',
+				input: '#161B22',
+				ring: '#238636',
+				card: {
+					DEFAULT: '#0D1117',
+					foreground: '#C9D1D9',
+				},
+			},
+			fontFamily: {
+				sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+				mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+			},
+			boxShadow: {
+				'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+				'glow': '0 0 15px rgba(35, 134, 54, 0.3)',
+			},
+			backdropBlur: {
+				'xs': '2px',
+			},
+			animation: {
+				'pulse-glow': 'pulse-glow 2s infinite',
+			},
+			keyframes: {
+				'pulse-glow': {
+					'0%, 100%': { boxShadow: '0 0 0 0 rgba(35, 134, 54, 0.4)' },
+					'50%': { boxShadow: '0 0 0 6px rgba(35, 134, 54, 0)' },
 				}
 			}
 		}

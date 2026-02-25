@@ -21,8 +21,8 @@ export default function Login() {
     const [password, setPassword] = useState("");
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-            <Card className="w-full max-w-md glass border-white/10 relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-dark-bg">
+            <Card className="w-full max-w-md glass-panel relative overflow-hidden">
                 <CardHeader className="space-y-1 relative z-10">
                     <CardTitle className="text-2xl font-bold tracking-tight text-white flex gap-2 items-center justify-center text-center w-full">
                         Welcome back
