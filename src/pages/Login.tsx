@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Github, Eye, EyeOff } from "lucide-react";
+import StartInternshipButton from "@/_Features_lokesh/components/StartInternshipButton";
 import {
     Dialog,
     DialogContent,
@@ -122,6 +123,8 @@ export default function Login() {
                             Google
                         </Button>
                     </div>
+                        <StartInternshipButton />
+
 
                 </CardContent>
                 <CardFooter className="relative z-10 w-full flex justify-center">
