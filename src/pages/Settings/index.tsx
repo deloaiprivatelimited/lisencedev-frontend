@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Sidebar from "../../components/layout/Sidebar";
 import Header from "../../components/layout/Header";
 import IdentitySection from "./components/IdentitySection";
@@ -9,26 +9,60 @@ import SecuritySection from "./components/SecuritySection";
 export default function Settings() {
     const [activeSection, setActiveSection] = useState('account');
 
-    const renderContent = () => {
-        switch (activeSection) {
-            case 'account':
-                return <IdentitySection />;
-            case 'integration':
-                return <GithubSection />;
-            case 'notifications':
-                return <AlertsSection />;
-            case 'security':
-                return <SecuritySection />;
-            case 'billing':
-                return (
-                    <div className="glass-panel rounded-xl overflow-hidden mt-6 p-12 text-center text-dark-muted">
-                        <i className="fa-solid fa-credit-card text-4xl mb-4 text-dark-border"></i>
-                        <h3 className="text-lg font-medium text-white mb-2">Billing & Plans coming soon</h3>
-                        <p className="text-sm">We are currently integrating with our payment provider.</p>
-                    </div>
-                );
-            default:
-                return <IdentitySection />;
+    const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observerCallback = (entries: IntersectionObserverEntry[]) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    if (id) {
+                        setActiveSection(id);
+                    }
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        Object.values(sectionRefs.current).forEach((ref) => {
+            if (ref) observer.observe(ref);
+        });
+
+        // Add scroll listener for hitting the exact bottom of the page
+        const handleScroll = () => {
+            const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+            if (isBottom) {
+                setActiveSection('billing');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const scrollToSection = (sectionId: string) => {
+        setActiveSection(sectionId);
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
         }
     };
 
@@ -60,7 +94,7 @@ export default function Settings() {
                 navItems={navItems}
                 supportItems={supportItems}
                 activeSection={activeSection}
-                setActiveSection={setActiveSection}
+                setActiveSection={scrollToSection}
             />
 
             <main className="flex-1 lg:ml-72 min-h-screen relative z-10 w-full overflow-hidden flex flex-col">
@@ -77,8 +111,8 @@ export default function Settings() {
                     ]}
                 />
 
-                <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-8 relative z-10 w-full flex-1">
-                    <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-dark-border pb-4 sm:pb-6 gap-4">
+                <div className="p-4 sm:p-6 lg:p-8 pt-24 lg:pt-28 max-w-7xl mx-auto space-y-8 relative z-10 w-full flex-1 pb-24">
+                    <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-dark-border pb-4 sm:pb-6 gap-4 sticky top-[72px] bg-dark-bg/90 backdrop-blur-md z-20 py-4 -mt-4">
                         <div>
                             <h2 className="text-lg font-medium text-white capitalize">{activeSection.replace('-', ' ')} Overview</h2>
                             <p className="text-sm text-dark-muted mt-1">{sectionDescriptions[activeSection] || 'Manage your settings.'}</p>
@@ -93,7 +127,39 @@ export default function Settings() {
                         </div>
                     </div>
 
-                    {renderContent()}
+                    <div className="space-y-16">
+                        <div id="account" ref={(el) => { sectionRefs.current['account'] = el; }} className="scroll-mt-[200px]">
+                            <IdentitySection />
+                        </div>
+
+                        <div id="integration" ref={(el) => { sectionRefs.current['integration'] = el; }} className="scroll-mt-[200px]">
+                            <GithubSection />
+                        </div>
+
+                        <div id="notifications" ref={(el) => { sectionRefs.current['notifications'] = el; }} className="scroll-mt-[200px]">
+                            <AlertsSection />
+                        </div>
+
+                        <div id="security" ref={(el) => { sectionRefs.current['security'] = el; }} className="scroll-mt-[200px]">
+                            <SecuritySection />
+                        </div>
+
+                        <div id="billing" ref={(el) => { sectionRefs.current['billing'] = el; }} className="scroll-mt-[200px]">
+                            <section className="glass-panel rounded-xl overflow-hidden mb-12 mt-8">
+                                <div className="px-6 py-4 border-b border-dark-border bg-dark-surface/30">
+                                    <h3 className="text-base font-semibold text-white flex items-center gap-2">
+                                        <i className="fa-solid fa-credit-card text-dark-muted"></i>
+                                        Billing & Plans
+                                    </h3>
+                                </div>
+                                <div className="p-12 text-center text-dark-muted">
+                                    <i className="fa-solid fa-credit-card text-4xl mb-4 text-dark-border"></i>
+                                    <h3 className="text-lg font-medium text-white mb-2">Billing & Plans coming soon</h3>
+                                    <p className="text-sm">We are currently integrating with our payment provider.</p>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
 
                 </div>
 

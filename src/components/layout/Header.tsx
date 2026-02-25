@@ -33,7 +33,7 @@ export default function Header({ title, breadcrumbs }: HeaderProps) {
     const unreadCount = notifications.filter(n => n.unread).length;
 
     return (
-        <header className="hidden lg:flex items-center justify-between px-8 py-5 sticky top-0 z-30 backdrop-blur-md bg-dark-bg/80 border-b border-dark-border/50 w-full relative">
+        <header className="hidden lg:flex items-center justify-between px-8 py-5 fixed top-0 left-0 right-0 lg:left-72 z-40 backdrop-blur-md bg-dark-bg/80 border-b border-dark-border/50">
             <div>
                 <nav className="flex text-sm text-dark-muted mb-1" aria-label="Breadcrumb">
                     <ol className="flex items-center space-x-2">
